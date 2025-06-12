@@ -165,6 +165,14 @@ font-family: Arial, sans-serif;
       padding: 1rem;
     }
     
+#main-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
 #chart-container {
   width: 100%;
   max-width: 600px;
@@ -180,8 +188,12 @@ canvas#comparisonChart {
 </style>
 </head>
 <body>
-<h1>Green Bounce Kostenvergleich (48 Monate)</h1>
-<div class="layout-row">
+
+
+
+
+
+<div id="main-container"><h1>Green Bounce Kostenvergleich (48 Monate)</h1><div class="layout-row">
 <div class="inputs">
 <label>Bälle pro Bestellung:
         <input id="balls" min="0" type="number"/>
@@ -201,8 +213,7 @@ canvas#comparisonChart {
 <div class="chart-wrapper">
 <canvas id="chart"></canvas>
 </div>
-</div>
-<div class="counters">
+</div><div class="counters">
 <div class="counter-box">
 <div class="value" id="percentSave">0%</div>
 <div class="label">Kostenersparnis</div>
@@ -211,8 +222,7 @@ canvas#comparisonChart {
 <div class="value" id="co2Save">0%</div>
 <div class="label">CO₂-Einsparung</div>
 </div>
-</div>
-<script>
+</div><script>
     function getPriceGB(balls) {
       if (balls >= 200) return 0.70;
       if (balls >= 150) return 0.75;
@@ -358,8 +368,7 @@ canvas#comparisonChart {
       document.getElementById('months').value = '';
       initChart();
     });
-  </script>
-<script>
+  </script><script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
       .then(function(reg) {
@@ -369,6 +378,5 @@ canvas#comparisonChart {
         console.log('Service Worker Fehler', err);
       });
   }
-</script>
-</body>
+</script></div></body>
 </html>

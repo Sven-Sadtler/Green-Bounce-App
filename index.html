@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Green Bounce Kostenvergleich</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Green Bounce Kostenvergleich</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
     body {
       
 h1 {
@@ -146,44 +147,57 @@ font-family: Arial, sans-serif;
 
 
     }
-  </style>
+  
+
+    input {
+      font-size: 1.3rem;
+      padding: 1rem;
+    }
+
+    label {
+      font-size: 1.2rem;
+    }
+
+    button {
+      font-size: 1.3rem;
+      padding: 1rem;
+    }
+    </style>
 </head>
 <body>
-  <h1>Green Bounce Kostenvergleich (48 Monate)</h1>
-  <div class="layout-row">
-    <div class="inputs">
-      <label>Bälle pro Bestellung:
-        <input id="balls" type="number" min="0">
-      </label>
-      <label>Preis pro Ball (neu) €:
-        <input id="priceNew" type="number" step="0.01">
-      </label>
-      <label>Nutzungsdauer (Monate):
-        <input id="months" type="number" min="1">
-      </label>
-      <label>Preis pro Ball (Green Bounce) € (Staffel):
-        <input id="priceGB" type="number" step="0.01" readonly>
-      </label>
-      <button id="calcBtn">Berechnen</button>
-      <div id="results"></div>
-    </div>
-    <div class="chart-wrapper">
-      <canvas id="chart"></canvas>
-    </div>
-  </div>
-
-  <div class="counters">
-    <div class="counter-box">
-      <div id="percentSave" class="value">0%</div>
-      <div class="label">Kostenersparnis</div>
-    </div>
-    <div class="counter-box">
-      <div id="co2Save" class="value">0%</div>
-      <div class="label">CO₂-Einsparung</div>
-    </div>
-  </div>
-
-  <script>
+<h1>Green Bounce Kostenvergleich (48 Monate)</h1>
+<div class="layout-row">
+<div class="inputs">
+<label>Bälle pro Bestellung:
+        <input id="balls" min="0" type="number"/>
+</label>
+<label>Preis pro Ball (neu) €:
+        <input id="priceNew" step="0.01" type="number"/>
+</label>
+<label>Nutzungsdauer (Monate):
+        <input id="months" min="1" type="number"/>
+</label>
+<label>Preis pro Ball (Green Bounce) € (Staffel):
+        <input id="priceGB" readonly="" step="0.01" type="number"/>
+</label>
+<button id="calcBtn">Berechnen</button>
+<div id="results"></div>
+</div>
+<div class="chart-wrapper">
+<canvas id="chart"></canvas>
+</div>
+</div>
+<div class="counters">
+<div class="counter-box">
+<div class="value" id="percentSave">0%</div>
+<div class="label">Kostenersparnis</div>
+</div>
+<div class="counter-box">
+<div class="value" id="co2Save">0%</div>
+<div class="label">CO₂-Einsparung</div>
+</div>
+</div>
+<script>
     function getPriceGB(balls) {
       if (balls >= 200) return 0.70;
       if (balls >= 150) return 0.75;

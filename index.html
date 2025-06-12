@@ -165,43 +165,6 @@ font-family: Arial, sans-serif;
       padding: 1rem;
     }
     
-    body {
-      margin: 1em;
-      padding: 0.5em;
-    }
-
-    h1 {
-      margin-bottom: 1em;
-    }
-
-    input {
-      padding: 0.4em;
-      font-size: 1.1rem;
-    }
-
-    label {
-      font-size: 1.1rem;
-      margin-bottom: 0.4em;
-    }
-
-    button {
-      font-size: 1.1rem;
-      padding: 0.6em;
-    }
-
-    .counter-box .value {
-      font-size: 2.2rem;
-    }
-
-    .counter-box .label {
-      font-size: 1rem;
-    }
-
-    .counters {
-      gap: 2em;
-      margin-top: 1.2em;
-    }
-    
 #chart-container {
   width: 100%;
   max-width: 600px;
@@ -211,7 +174,7 @@ font-family: Arial, sans-serif;
 
 canvas#comparisonChart {
   width: 100% !important;
-  height: auto !important;
+  height: 300px !important;
   display: block;
 }
 </style>
@@ -318,6 +281,7 @@ canvas#comparisonChart {
 
       chartInstance = new Chart(ctx, {
         type: 'bar',
+      options: { responsive: true, maintainAspectRatio: false },
         data: {
           labels: ['Neu', 'Green Bounce'],
           datasets: [{

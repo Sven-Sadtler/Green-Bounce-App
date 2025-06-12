@@ -6,17 +6,93 @@
   <title>Green Bounce Kostenvergleich</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 2em; padding: 1em; display: flex; flex-direction: column; align-items: center; }
-    .layout-row { display: flex; flex-direction: row; justify-content: center; align-items: stretch; gap: 4em; flex-wrap: nowrap; width: 100%; max-width: 1200px; }
-    .inputs { flex: 0 0 300px; margin-left: auto; display: flex; flex-direction: column; justify-content: flex-start; }
-    .chart-wrapper { flex: 0 0 400px; margin-right: auto; display: flex; align-items: stretch; }
-    label { display: block; margin-bottom: 0.5em; }
-    input { width: 100%; padding: 0.5em; margin-top: 0.25em; }
-    input[readonly] { background-color: #f0f0f0; }
-    button { padding: 0.75em 1.5em; margin-top: 1em; cursor: pointer; width: 100%; }
-    #results { margin-top: 1em; font-weight: bold; white-space: nowrap; overflow-x: auto; }
-    .chart-wrapper canvas { width: 100%; height: 100%; }
-    .counters { display: flex; justify-content: center; gap: 4em; margin-top: 2em; flex-wrap: wrap; width: 100%; }
+    body {
+      
+h1 {
+  margin-bottom: 2em;
+}
+font-family: Arial, sans-serif;
+      margin: 2em;
+      padding: 1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-image: url('ChatGPT Image 3. Apr. 2025, 12_50_54.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .layout-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: stretch;
+      gap: 4em;
+      flex-wrap: nowrap;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .inputs {
+      flex: 0 0 300px;
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .chart-wrapper {
+      flex: 0 0 400px;
+      margin-right: auto;
+      display: flex;
+      align-items: stretch;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5em;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.25em;
+    }
+
+    input[readonly] {
+      background-color: #f0f0f0;
+    }
+
+    button {
+      padding: 0.75em 1.5em;
+      margin-top: 1em;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold; /* ✅ fett */
+    }
+
+    #results {
+      margin-top: 1em;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+
+    .chart-wrapper canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .counters {
+      display: flex;
+      justify-content: center;
+      gap: 4em;
+      margin-top: 2em;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
     .counter-box {
       padding: 1em 2em;
       border-radius: 1em;
@@ -26,14 +102,49 @@
       min-width: 200px;
       flex: 0 0 auto;
     }
+
     .counter-box .value {
       font-size: 3rem;
       font-weight: bold;
       color: #2e7d32;
     }
+
     .counter-box .label {
       font-size: 1.2rem;
       color: #555;
+    }
+
+    @media (max-width: 900px) {
+      .layout-row {
+        flex-direction: column;
+        gap: 2em;
+        align-items: center;
+      }
+
+      .inputs, .chart-wrapper {
+        margin: 0;
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .chart-wrapper {
+        min-height: 300px;
+      }
+
+      .counter-box {
+        min-width: 150px;
+      }
+
+      .counter-box .value {
+        font-size: 2rem;
+      }
+
+      .counter-box .label {
+        font-size: 1rem;
+      }
+
+
     }
   </style>
 </head>
@@ -130,7 +241,7 @@
         `Staffelpreis Green Bounce: €${pGB.toFixed(2)} | Kosten neu: €${roundToInt(kostenNeu)} | Green Bounce: €${roundToInt(kostenGB)}`;
 
       animateCounter('percentSave', roundToInt(percentSave));
-      animateCounter('co2Save', -50); // weiterhin -50% visuell dargestellt
+      animateCounter('co2Save', -50);
       animateChart(kostenNeu, kostenGB);
     }
 
@@ -148,24 +259,32 @@
             data: [0, 0],
             backgroundColor: ['red', 'green'],
             borderColor: ['#800000', '#006400'],
-            borderWidth: 2,
+            borderWidth: 2, // ✅ dünnerer Rahmen
             barThickness: 50
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          animation: {
-            duration: 1000
-          },
+          animation: { duration: 1000 },
           scales: {
             y: {
               beginAtZero: true,
               max: 2000,
               ticks: {
                 stepSize: 250,
-                callback: value => roundToInt(value)
-              }
+                callback: value => value + ' €', // ✅ Achsenwerte mit €
+                font: { weight: 'bold', size: 14 },
+                color: '#000'
+              },
+              grid: { color: '#000' }
+            },
+            x: {
+              ticks: {
+                font: { weight: 'bold', size: 14 },
+                color: '#000'
+              },
+              grid: { color: '#000' }
             }
           },
           plugins: { legend: { display: false } }
@@ -179,8 +298,8 @@
                 ctx.fillStyle = '#000';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'bottom';
-                ctx.font = '12px Arial';
-                if (dataVal > 0) ctx.fillText(dataVal, bar.x, bar.y - 5);
+                ctx.font = 'bold 14px Arial';
+                if (dataVal > 0) ctx.fillText(dataVal + ' €', bar.x, bar.y - 5); // ✅ Werte mit €
               });
             });
           }

@@ -345,5 +345,16 @@ font-family: Arial, sans-serif;
       initChart();
     });
   </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(function(reg) {
+        console.log('Service Worker registriert', reg);
+      })
+      .catch(function(err) {
+        console.log('Service Worker Fehler', err);
+      });
+  }
+</script>
 </body>
 </html>

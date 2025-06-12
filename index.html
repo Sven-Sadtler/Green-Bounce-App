@@ -12,7 +12,7 @@
     body {
       
 h1 {
-  margin-bottom: 2em;
+  margin-bottom: 0.5em;
 }
 font-family: Arial, sans-serif;
       margin: 2em;
@@ -165,35 +165,58 @@ font-family: Arial, sans-serif;
       padding: 1rem;
     }
     
-#main-container {
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 1rem;
-  box-sizing: border-box;
+    body {
+      margin: 1em;
+      padding: 0.5em;
+    }
+
+    h1 {
+      margin-bottom: 0em;
+    }
+
+    input {
+      padding: 0.4em;
+      font-size: 1.1rem;
+    }
+
+    label {
+      font-size: 1.1rem;
+      margin-bottom: 0.4em;
+    }
+
+    button {
+      font-size: 1.1rem;
+      padding: 0.6em;
+    }
+
+    .counter-box .value {
+      font-size: 2.2rem;
+    }
+
+    .counter-box .label {
+      font-size: 1rem;
+    }
+
+    .counters {
+      gap: 2em;
+      margin-top: 1.2em;
+    }
+    
+.chart-savings-text {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-top: 0em;
+  margin-bottom: 2em;
+  font-weight: bold;
+  color: black;
 }
 
-#chart-container {
-  width: 100%;
-  max-width: 600px;
-  margin: 1.5em auto;
-  overflow: hidden;
-}
-
-canvas#comparisonChart {
-  width: 100% !important;
-  height: 300px !important;
-  display: block;
 }
 </style>
 </head>
 <body>
-
-
-
-
-
-<div id="main-container"><h1>Green Bounce Kostenvergleich (48 Monate)</h1><div class="layout-row">
+<h1>Green Bounce Kostenvergleich (48 Monate)</h1><div class="chart-savings-text" id="absoluteSaving">Absolute Ersparnis: </div>
+<div class="layout-row">
 <div class="inputs">
 <label>Bälle pro Bestellung:
         <input id="balls" min="0" type="number"/>
@@ -204,7 +227,7 @@ canvas#comparisonChart {
 <label>Nutzungsdauer (Monate):
         <input id="months" min="1" type="number"/>
 </label>
-<label>Preis pro Ball (Green Bounce) € (Staffel):
+<label>Preis pro Ball (Green Bounce) €:
         <input id="priceGB" readonly="" step="0.01" type="number"/>
 </label>
 <button id="calcBtn">Berechnen</button>
@@ -213,7 +236,8 @@ canvas#comparisonChart {
 <div class="chart-wrapper">
 <canvas id="chart"></canvas>
 </div>
-</div><div class="counters">
+</div>
+<div class="counters">
 <div class="counter-box">
 <div class="value" id="percentSave">0%</div>
 <div class="label">Kostenersparnis</div>
@@ -222,7 +246,27 @@ canvas#comparisonChart {
 <div class="value" id="co2Save">0%</div>
 <div class="label">CO₂-Einsparung</div>
 </div>
-</div><script>
+</div>
+<script>
+function animateSaving(value) {
+  const el = document.getElementById('absoluteSaving');
+  const duration = 1000;
+  const startTime = performance.now();
+  const from = 0;
+
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const current = Math.round(from + (value - from) * progress);
+    el.textContent = 'Absolute Ersparnis: ' + current + ' €';
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
     function getPriceGB(balls) {
       if (balls >= 200) return 0.70;
       if (balls >= 150) return 0.75;
@@ -276,12 +320,14 @@ canvas#comparisonChart {
       const kostenGB  = b * pGB  * (48 / m);
       const percentSave = ((kostenNeu - kostenGB) / kostenNeu) * 100;
 
-      document.getElementById('results').textContent =
-        `Staffelpreis Green Bounce: €${pGB.toFixed(2)} | Kosten neu: €${roundToInt(kostenNeu)} | Green Bounce: €${roundToInt(kostenGB)}`;
+      
 
       animateCounter('percentSave', roundToInt(percentSave));
       animateCounter('co2Save', -50);
       animateChart(kostenNeu, kostenGB);
+      const absoluteSave = kostenNeu - kostenGB;
+      animateSaving(Math.round(absoluteSave));
+
     }
 
     let chartInstance = null;
@@ -291,7 +337,6 @@ canvas#comparisonChart {
 
       chartInstance = new Chart(ctx, {
         type: 'bar',
-      options: { responsive: true, maintainAspectRatio: false },
         data: {
           labels: ['Neu', 'Green Bounce'],
           datasets: [{
@@ -368,7 +413,8 @@ canvas#comparisonChart {
       document.getElementById('months').value = '';
       initChart();
     });
-  </script><script>
+  </script>
+<script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
       .then(function(reg) {
@@ -378,5 +424,6 @@ canvas#comparisonChart {
         console.log('Service Worker Fehler', err);
       });
   }
-</script></div></body>
+</script>
+</body>
 </html>

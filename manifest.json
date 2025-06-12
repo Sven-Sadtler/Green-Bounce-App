@@ -1,7 +1,7 @@
 {
   "name": "Green Bounce Kalkulator",
   "short_name": "GB Kalkulator",
-  "start_url": "./Green_Bounce_Calculator.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#66bb6a",
